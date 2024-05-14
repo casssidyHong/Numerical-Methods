@@ -1,0 +1,25 @@
+clc;
+
+f = @(x) exp(x) - 2*x.^2;
+g1 = @(x) (exp(x)/2).^(1/2);
+g2 = @(x) -(exp(x)/2).^(1/2);
+
+function xr = converge(f, g, xr)
+    tol = 1e-10;
+    while abs(f(xr)) > tol 
+        if f(xr) == 0
+            break;
+        end
+        xr = g(xr);
+    end
+end
+
+xr = converge(f, g1, 1);
+disp(sprintf('(a) Root converge (positive): %.5f', xr));
+xr = converge(f, g2, 1);
+disp(sprintf('    Root converge when negative: %.5f', xr));
+xr = converge(f, g1, 2.5);
+disp(sprintf('(b) Root converge when x0=2.5: %.5f', xr));
+xr = converge(f, g1, 2.7);
+disp(sprintf('    Root converge when x0=2.7: %.5f', xr));
+
